@@ -18,7 +18,7 @@ export const Index = () => {
 
                 <div className="col-md-6">
                     <div className="">
-                        <h1 className="text-center">CodeMind</h1>
+                        <h1 className="text-center">Digital Tech Inc</h1>
                         <h4>
                             <a href="" className="typewrite ms-2" data-period="2000" data-type='[ "Aprende", "Disfruta", "Escribe Codigo", "Practica" ]'>
                                 <span className="wrap ms-3"></span>

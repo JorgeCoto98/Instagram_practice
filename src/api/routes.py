@@ -299,146 +299,87 @@ def create_post():
         # Captura cualquier error y devuelve un mensaje de error
         return jsonify({"error": str(e)}), 500
 
+@api.route('/posts', methods=['GET'])
+def get_all_posts():
+    try:
+        posts = Post.query.all()
+        return jsonify(posts=[post.serialize() for post in posts]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
+@api.route('/user/<int:user_id>/posts', methods=['GET'])
+def get_posts_by_user(user_id):
+    try:
+        # Obtener todos los posts del usuario con el ID proporcionado
+        posts = Post.query.filter_by(author=user_id).all()
 
+        if posts:
+            return jsonify(posts=[post.serialize() for post in posts]), 200
+        else:
+            return jsonify({"msg": "No se encontraron publicaciones para este usuario"}), 404
 
-# @api.route('/verificar-respuesta/<int:id>', methods=['POST'])
-# @jwt_required()
-# def verificar_respuesta(id):
-#     try:
-#         user_id = get_jwt_identity()
-#         correctAnswers = Answers.query.filter_by(
-#             exercise_id=id).filter_by(isCorrect=True).first()
-#         user_answer_exist = AnswersUser.query.filter_by(
-#             user_id=user_id).filter_by(exercise_id=id).first()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@api.route('/posts/<int:post_id>/like', methods=['POST'])
+@jwt_required()
+def like_post(post_id):
+    try:
+        user_id = get_jwt_identity()
+
+        # Verificar si el usuario ya ha dado like al post
+        existing_like = Like.query.filter_by(user_like=user_id, post_like=post_id).first()
+        if existing_like:
+            return jsonify({"error": "Ya has dado like a este post."}), 400
+
+        # Crear un nuevo like
+        new_like = Like(user_like=user_id, post_like=post_id)
+        db.session.add(new_like)
+        db.session.commit()
+
+        return jsonify(new_like.serialize()), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@api.route('/likes', methods=['GET'])
+def get_all_likes():
+    try:
+        likes = Like.query.all()
+        return jsonify(likes=[like.serialize() for like in likes]), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@api.route('/posts/<int:post_id>/likes', methods=['GET'])
+def get_likes_by_post(post_id):
+    try:
+        # todos los likes para el post especificado
+        likes = Like.query.filter_by(post_like=post_id).all()
         
+        if not likes:
+            return jsonify({"msg": "No hay likes para este post."}), 404
 
-#         if correctAnswers is None:
-#             return {"msg": "No existe el ejercicio"}
+        # recuento total de likes
+        like_count = len(likes)
 
-#         data = request.json
-#         correct = data["respuesta"] == correctAnswers.answers
+        #  último like (si existe)
+        last_like = likes[-1] if likes else None
+        last_like_user_name = None
+        if last_like:
+            last_like_user = User.query.get(last_like.user_like)
+            last_like_user_name = last_like_user.user_name if last_like_user else None
 
-#         if user_answer_exist is None and correct is True:
-#             user_answer = AnswersUser()
-#             user_answer.user_id = user_id,
-#             user_answer.exercise_id = id,
-#             user_answer.module = correctAnswers.module,
-#             user_answer.type = correctAnswers.type,
-#             db.session.add(user_answer)
-#             db.session.commit()
+        # respuesta
+        response = {
+            "like_count": like_count,
+            "last_like_user_name": last_like_user_name,
+            "likes": [like.serialize() for like in likes]
+        }
 
-#         return {"correct": correct}, 200
+        return jsonify(response), 200
 
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-
-# @api.route('/exercise/', methods=['GET'])
-# def get_exercise():
-#     try:
-#         exercises = Exercise.query.all()
-#         exercise_list = [exercise.serialize() for exercise in exercises]
-#         return jsonify({"exercise": exercise_list}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/respuestauser', methods=['GET'])
-# @jwt_required()
-# def verifica():
-#     try:
-#         user_id = get_jwt_identity()
-#         users = AnswersUser.query.filter_by(user_id=user_id).all()
-#         id_respuestas = list(
-#             map(lambda respuesta: respuesta.exercise_id, users))
-#         return jsonify({"respuestas": id_respuestas}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/teachers', methods=['POST'])
-# def create_teacher():
-#     try:
-#         password = request.json.get("password")
-#         secure_password = bcrypt.generate_password_hash(
-#             password, 10).decode("utf-8")
-#         data = request.json
-#         new_teacher = Teacher(
-#             firstName=data['firstName'],
-#             lastName=data['lastName'],
-#             email=data['email'],
-#             password=secure_password,
-#             role=data['role']
-#         )
-#         db.session.add(new_teacher)
-#         db.session.commit()
-#         return jsonify({"message": "Profesor creado con éxito"}), 201
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/teachers', methods=['GET'])
-# def get_teachers():
-#     try:
-#         teachers = Teacher.query.all()
-#         teacher_list = [teacher.list_teachers() for teacher in teachers]
-#         return jsonify({"teachers": teacher_list}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/teachers/students', methods=['GET'])
-# def get_teachers_students():
-#     try:
-#         teachers = Teacher.query.all()
-#         teacher_list = [teacher.serialize() for teacher in teachers]
-#         return jsonify({"teachers": teacher_list}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/teacher/<int:user_id>', methods=['PATCH'])
-# def put_teacher_id(user_id):
-#     try:
-#         if user_id is None:
-#             return jsonify({"msg": "El usuario no existe"}), 400
-
-#         teacher = Teacher.query.get(user_id)
-
-#         if teacher is None:
-#             return jsonify({"msg": "El usuario no existe"}), 400
-
-#         fields_to_update = request.json
-
-#         for field, value in fields_to_update.items():
-#             if field == 'teacher':
-#                 setattr(teacher, "teacher_id", value)
-#             else:
-#                 print(field, value)
-#                 setattr(teacher, field, value)
-
-#         print(teacher.serialize())
-
-#         db.session.commit()
-#         return jsonify({"msg": "El usuario ha sido actualizado"}), 201
-
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/teacher/<int:teacher_id>', methods=['GET'])
-# def get_teacher_id(teacher_id):
-#     try:
-#         teacher = Teacher.query.get(teacher_id)
-
-#         if teacher is not None:
-#             return jsonify(teacher=[teacher.serialize()]), 200
-
-#         return jsonify({"msg": "El usuario no existe"}), 400
-
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
 
 
 @api.route('/check-token', methods=['POST'])
@@ -464,98 +405,13 @@ def handle():
     return jsonify(response_body), 200
 
 
-# @api.route('/progress', methods=['GET'])
-# @jwt_required()
-# def progress_users():
-#     try:
-#         user_id = get_jwt_identity()
-#         answers_user = AnswersUser.query.filter_by(user_id=user_id)
-#         answers_number = answers_user.count()
-#         if answers_number == 0:
-#             return jsonify({"progress": 0}), 200
-#         last_answer = answers_user.order_by(AnswersUser.id.desc()).first()
-#         question_all = Exercise.query.count()
-#         progreso = answers_number/question_all * 100
-#         return jsonify({"progress": progreso, "last_answer": last_answer.serialize()}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-# @api.route('/progressall', methods=['GET'])
-# @jwt_required()
-# def progress_users_all():
-#     try:
-#         teacher_id = get_jwt_identity()
-#         users_progress=[]
-#         user_list= User.query.filter_by(teacher_id=teacher_id)
-#         for user in user_list:
-#             answers_user = AnswersUser.query.filter_by(user_id= user.id)
-#             answers_number = answers_user.count()
-#             if answers_number == 0:
-#                 users_progress.append(0)
-#                 continue
-#             question_all = Exercise.query.count()
-#             progreso = answers_number/question_all * 100
-#             users_progress.append(round(progreso,1))
-#         return jsonify(users_progress), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# @api.route('/progress/<string:module>', methods=['GET'])
-# @jwt_required()
-# def progress_users_module(module):
-#     try:
-#         user_id = get_jwt_identity()
-#         answers_user = AnswersUser.query.filter_by(
-#             user_id=user_id).filter_by(module=module.upper())
-#         answers_number = answers_user.count()
-#         if answers_number == 0:
-#             last_answer = Exercise.query.filter_by(
-#                 module=module.upper()).first()
-#             return jsonify({"progress": 0, "last_answer": last_answer.serialize()}), 200
-#         last_answer = answers_user.order_by(AnswersUser.id.desc()).first()
-#         question_all_module = Exercise.query.filter_by(
-#             module=module.upper()).count()
-#         progreso = answers_number/question_all_module * 100
-#         return jsonify({"progress": progreso, "last_answer": last_answer.serialize()}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-# @api.route('/progressgeneral', methods=['GET'])
-# @jwt_required()
-# def progress_users_modules():
-#     try:
-#         user_id = get_jwt_identity()
-
-
-#         answers_user_html = AnswersUser.query.filter_by(user_id=user_id).filter_by(module="HTML")
-#         answers_number_html = answers_user_html.count()
-
-#         answers_user_css = AnswersUser.query.filter_by(user_id=user_id).filter_by(module="CSS")
-#         answers_number_css = answers_user_css.count()
-
-#         answers_user_js = AnswersUser.query.filter_by(user_id=user_id).filter_by(module="JS")
-#         answers_number_js = answers_user_js.count()
-
-#         question_all_html = Exercise.query.filter_by(module="HTML").count()
-#         question_all_css = Exercise.query.filter_by(module="CSS").count()
-#         question_all_js = Exercise.query.filter_by(module="JS").count()
-
-#         progreso_html = answers_number_html/question_all_html * 100
-#         progreso_css = answers_number_css/question_all_css * 100
-#         progreso_js = answers_number_js/question_all_js * 100
-
-#         return jsonify({"progress_html": progreso_html,"progress_css": progreso_css,"progress_js": progreso_js}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
 @api.route('/requestpassword', methods=["POST"])
 def endpoint_mail():
     body = request.get_json()
     email = body["email"]
     user = User.query.filter_by(email=email).first()
     if user is None:
-        # user = Teacher.query.filter_by(email=email).first()
+        
         
         print(jsonify({"message": "El usuario no existe"}))
 
@@ -578,8 +434,7 @@ def change_password():
         email = body["email"]
         user = User.query.filter_by(email=email).first()
         if user is None:
-            # teacher = Teacher.query.filter_by(email=email).first()
-            # if teacher is None:
+            
             return jsonify({"message": "El usuario no existe"}), 404
 
         new_password = request.json.get("password")
@@ -589,8 +444,7 @@ def change_password():
 
             if user:
                 user.password = hashed_password
-            # elif teacher:
-            #     teacher.password = hashed_password
+            
 
             db.session.commit()
 
@@ -610,3 +464,4 @@ def decrypt():
         return jsonify({"email": email}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+

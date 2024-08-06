@@ -5,30 +5,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			token: null,
-			message: null,
-			exercises: [],
-			simpleChoice: [],
-			last_answer: [],
-			respuestaUser: [],
-			progress: null,
-			progressModule: null,
-			progressGeneral : {},
-			progressStudents : {},
-			module: {
-				html: {
-					imagen: "https://generation-sessions.s3.amazonaws.com/ad60b588835c42a878fbc4ab00aaadec/img/html5-logo-and-wordmark-1@2x.png",
-					color: "#F16529"
-				},
-				css: {
-					imagen: "https://generation-sessions.s3.amazonaws.com/ad60b588835c42a878fbc4ab00aaadec/img/1200px-css-3-1@2x.png",
-					color: "#29A9DF"
-				},
-				js: {
-					imagen: "https://generation-sessions.s3.amazonaws.com/ad60b588835c42a878fbc4ab00aaadec/img/unofficial-javascript-logo-2-1@2x.png",
-					color: "#F7DF1E"
-				}
-			},
-
 			demo: [
 				{
 					title: "FIRST",
@@ -43,8 +19,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 
 			user: initialUser,
-			teachers: null,
-			teacherData: null,
 			email: null
 		},
 
@@ -54,232 +28,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
-			getRespuestaUser: async () => {
-				const url = process.env.BACKEND_URL + `/api/respuestauser`
-				const token = localStorage.getItem('userToken')
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-
-				try {
-					// fetching data from the backend
-					const resp = await fetch(url, options)
-					const data = await resp.json()
-					const respuestaUser = data.respuestas
-					setStore({ respuestaUser })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			getProgreso: async () => {
-
-
-				const url = process.env.BACKEND_URL + `/api/progress`
-				const token = localStorage.getItem('userToken')
-        
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-
-				try {
-					// fetching data from the backend
-					const resp = await fetch(url, options)
-					const data = await resp.json()
-					const progress = data.progress
-
-					setStore({progress})
-
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			getProgresoModulo: async (module) => {
-
-				const url = process.env.BACKEND_URL + `/api/progress/${module}`
-				const token = localStorage.getItem('userToken')
-				if (!token) {
-					return false
-				}
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-
-				try {
-
-					// fetching data from the backend
-					const resp = await fetch(url, options)
-					const data = await resp.json()
-					const progressModule = data.progress
-					setStore({ progressModule })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			getProgresoGeneral: async () => {
-
-				const url = process.env.BACKEND_URL + `/api/progressgeneral`
-				const token = localStorage.getItem('userToken')
-				if (!token) {
-					return false
-				}
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-
-				try {
-
-					// fetching data from the backend
-					const resp = await fetch(url, options)
-					const data = await resp.json()
-					const progressGeneral = data
-					setStore({ progressGeneral })
-				
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			getProgresoStudents: async () => {
-
-				const url = process.env.BACKEND_URL + `/api/progressall`
-				const token= localStorage.getItem('userToken')
-				if(!token){
-					return false
-				}
-				const options = {
-						method:  'GET',
-						headers: {
-							'Content-Type': 'application/json', 
-							'Access-Control-Allow-Origin': '*',
-							'Authorization': `Bearer ${token}`
-						}
-					}
-
-				try{
-
-					// fetching data from the backend
-					const resp = await fetch(url,options)
-					const data = await resp.json()
-					const progressStudents= data
-					setStore({progressStudents})
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			getLastAnswerModule: async (module) => {
-
-
-				const url = process.env.BACKEND_URL + `/api/progress/${module}`
-				const token = localStorage.getItem('userToken')
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-				try {
-
-					// fetching data from the backend
-					const resp = await fetch(url, options)
-					const data = await resp.json()
-					const last_answer = data.last_answer
-					setStore({ last_answer })
-
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-			UpdateLastAnswer: (pregunta) => {
-				setStore({ last_answer: pregunta })
-			},
-
-			getVerificar: async (id, respuesta) => {
-
-
-				const url = process.env.BACKEND_URL + `/api/verificar-respuesta/${id}`
-				const token = localStorage.getItem('userToken')
-        
-				const options = {
-					method: 'POST',
-					body: JSON.stringify({ respuesta }),
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*',
-						'Authorization': `Bearer ${token}`
-					}
-				}
-				try {
-					const resp = await fetch(url, options)
-					if (resp.ok) {
-						const data = await resp.json()
-
-						const respuesta = data.correct
-						// don't forget to return something, that is how the async resolves
-						return respuesta;
-					} else {
-						console.error('La solicitud no se realizó con éxito');
-					}
-				} catch (error) {
-					console.error(error)
-				}
-			},
-
-			getExercises: async (module) => {
-				try {
-
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${module}`)
-					const data = await resp.json()
-					const exercises = data.exercises
-
-
-					setStore({ exercises })
-
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
 
 			getMessage: async () => {
 				try {
@@ -360,27 +108,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return { success: false, error: 'Error de red' };
 				}
 			},
-			// getTeachers: async () => {
-			// 	const url = process.env.BACKEND_URL + '/api/teachers';
-			// 	const options = {
-			// 		method: 'GET',
-			// 		headers: {
-			// 			'Content-Type': 'application/json',
-			// 			'Access-Control-Allow-Origin': '*'
-			// 		}
-			// 	}
-
-			// 	try {
-			// 		const resp = await fetch(url, options);
-			// 		if (resp.ok) {
-			// 			const data = await resp.json()
-			// 			await setStore({ teachers: data.teachers })
-			// 			return data
-			// 		}
-			// 	} catch (error) {
-			// 		console.error(error)
-			// 	}
-			// },
 			updateUser: async (data) => {
 				const url = `${process.env.BACKEND_URL}/api/user/${data.id}`; // Asegúrate de que la URL sea correcta
 			
@@ -406,31 +133,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				} catch (error) {
 					console.error(error);
-				}
-			},
-			
-			getTeachersStudents: async (userid) => {
-				let { teacherData } = getStore()
-				const url = process.env.BACKEND_URL + '/api/teacher/' + userid;
-				const options = {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						'Access-Control-Allow-Origin': '*'
-					}
-				}
-
-				try {
-					const resp = await fetch(url, options);
-					if (resp.ok) {
-						const data = await resp.json()
-						const updatedTeacherData = { ...teacherData, ...data };
-						await setStore({ teacherData: updatedTeacherData })
-						// console.log("getTeacherStflux" + JSON.stringify(updatedTeacherData));
-						return data
-					}
-				} catch (error) {
-					console.error(error)
 				}
 			},
 			logout: async () => {
@@ -538,7 +240,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			getUser: async (userid) => {
-				let { teacherData } = getStore()
 				const url = process.env.BACKEND_URL + '/api/user/' + userid;
 				const options = {
 					method: 'GET',
