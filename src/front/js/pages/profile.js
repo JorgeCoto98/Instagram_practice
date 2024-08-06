@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Context } from "../store/appContext";
 
 export const Profile = () => {
-    const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const { store, actions } = useContext(Context);
@@ -11,19 +10,13 @@ export const Profile = () => {
         id: store.user.id,
         firstName: store.user.firstName,
         lastName: store.user.lastName,
+        user_name: store.user.user_name,
         email: store.user.email,
-        teacher: store.user.teacher ? parseInt(store.user.teacher) : null,
-        img: store.user.img,
-        role: store.user.role
+        img: store.user.img
     };
     const [formData, setFormData] = useState({ ...initialFormData });
 
-    const handleTeacherSelect = (teacher, e) => {
-        e.preventDefault();
-        setSelectedTeacher(teacher);
-        setFormData({ ...formData, teacher: teacher.id });
-    };
-
+ 
     const handleChange = (e) => {
         const { name, value } = e.target;
         // Realiza la transformación de la primera letra en mayúscula
@@ -52,8 +45,9 @@ export const Profile = () => {
             const rounded = true;
             const background = "random";
             const name = formData.firstName + " " + formData.lastName;
+            const user_name = formData.user_name;
             const imgURL = `${baseUrl}/?name=${encodeURIComponent(name)}&size=${size}&rounded=${rounded}&background=${background}`;
-            const updatedFormData = { ...formData, img: imgURL, teacher: selectedTeacher ? selectedTeacher.id : null };
+            const updatedFormData = { ...formData, img: imgURL};
             await actions.updateUser(updatedFormData);
             setErrorMessage("");
             setShowAlert(true);
@@ -62,22 +56,12 @@ export const Profile = () => {
         }
     };
 
-    useEffect(() => {
-        if (store.user.teacher && store.teachers) {
-            const assignedTeacher = store.teachers.find(
-                teacher => teacher.id === parseInt(store.user.teacher)
-            );
-            if (assignedTeacher) {
-                setSelectedTeacher(assignedTeacher);
-            }
-        }
-    }, [store.user.teacher, store.teachers]);
 
     return (
         <div className="container vh-100 d-flex flex-column justify-content-center">
             <div className="row mb-4">
                 <div className="col mt-4">
-                    <Link to="/modules"><i className="fa-solid fa-arrow-left arrow-back"></i></Link>
+                    <Link to="/home"><i className="fa-solid fa-arrow-left arrow-back"></i></Link>
                 </div>
             </div>
             <div className="row justify-content-center">
@@ -103,43 +87,13 @@ export const Profile = () => {
                             <input type="text" className="form-control" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} />
                         </div>
                         <div className='mb-3'>
+                            <label className='form-label'>User name: </label>
+                            <input type="text" className="form-control" id="user_name" name="user_name" value={formData.user_name} onChange={handleChange} />
+                        </div>
+                        <div className='mb-3'>
                             <label className='form-label'>E-mail:</label>
                             <input type="text" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} disabled={true} />
                         </div>
-                        {
-                            store.user.role === "alumno" && store.user.teacher ? (
-                                <div className='mb-3 d-flex  justify-content-between '>
-                                    <label className='form-label'>Teacher:</label>
-                                    <div>
-                                        <p>{selectedTeacher ? `${selectedTeacher.firstName} ${selectedTeacher.lastName}` : store.user.teacher}</p>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className='mb-3 d-flex  justify-content-between '>
-                                    <label className='form-label'>Teacher:</label>
-                                    <div className="btn-group dropdown-center">
-                                        <button
-                                            className="btn btn-secondary dropdown-toggle"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                            disabled={!!store.user.teacher}
-                                        >
-                                            {selectedTeacher ? `${selectedTeacher.firstName} ${selectedTeacher.lastName}` : "Select Your Teacher"}
-                                        </button>
-                                        <ul className="dropdown-menu dropdown-menu-dark">
-                                            {store.teachers && store.teachers.map((teacher, index) => (
-                                                <span key={index} className='w-100'>
-                                                    <p className="px-2 text-white w-100 teachersname" onClick={(e) => handleTeacherSelect(teacher, e)}>
-                                                        {teacher.firstName + " " + teacher.lastName}
-                                                    </p>
-                                                </span>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </div>
-                            )
-                        }
                         <div className='container '>
                             <div className="row mt-5 d-flex justify-content-between">
                                 <div className="col-6">

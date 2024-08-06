@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import logoCM from "../../img/LOGO.png";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -83,11 +84,7 @@ export const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
 
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-end ">
-
-            <li className="nav-item">
-              <a className="nav-link scroll-smooth" aria-current="page" href="#roadmap-section">Road map</a>
-            </li>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-2 d-flex align-items-end ">
             <li className="nav-item">
               <Link to={"/about"} className="nav-link">About us</Link>
             </li>
@@ -98,285 +95,122 @@ export const Navbar = () => {
     </nav>
   )
 
-  const userNavbar = (
-    <div id="nav-bar">
-      <input id="nav-toggle" checked={checked} type="checkbox" onClick={() => toggleLogOut(!checked)} />
-      <div id="nav-header">
-        <div id="nav-title" target="_blank">
-          <Link to={"/modules"} className="text-primary navbar-title ms-2" aria-current="page" href="#">CodeMind</Link>
+  const userNavbar= (
+    <nav className="navbar navbar-expand-sm navbar-light bg-light" style={{ maxHeight: '100px' }}>
+    <ul className="navbar-nav w-100 d-flex justify-content-between">
+      <li className="nav-item">
+        <div id="nav-title" className="d-flex justify-content-center align-items-center ">
+          <img src={logoCM} alt="Logo" className="img-fluid" style={{ maxWidth: '70px' }} />
+          <Link to="/home" className="text-secondary navbar-title ms-2" aria-current="page">D tech Inc</Link>
         </div>
-        <label htmlFor="nav-toggle">
-          <span id="nav-toggle-burger"></span>
-        </label>
-        <hr />
-      </div>
-      <div id="nav-content">
-        <div className="nav-button">
-          <Link to="/modules"><i className="fas fa-palette"></i><span>Modules</span> </Link>
-        </div>
-        {/* <div className="nav-button">
-          <i className="fas fa-images"></i><span>Library</span>
-        </div> */}
-        <hr />
-
-        <div className="nav-button">
-          <Link to="/progress"><i className="fas fa-chart-line"></i><span>Progress</span> </Link>
-        </div>
-
-        <div className="nav-button">
-          <Link to="/roadMap"> <i className="fas fa-fire"></i><span>Road Map</span> </Link>
-        </div>
-        <div className="nav-button">
-          <Link to="/about"><i className="fas fa-heart"></i><span>About Us</span> </Link>
-        </div>
-        <div id="nav-content-highlight"></div>
-      </div>
-
-      <input id="nav-footer-toggle" type="checkbox" checked={checkedTwo} onClick={() => setCheckedTwo(!checkedTwo)} />
-      <div id="nav-footer">
-        <div id="nav-footer-heading" className="d-flex align-items-start">
-          <div id="nav-footer-avatar">
-            <Link to={"/profile"}><img src={userImg} alt="Avatar" className="rounded-circle" /></Link>
-          </div>
-          <div id="nav-footer-titlebox" className={`ms-2 ${shouldHide ? 'hide-element' : ''}`}>
-        
-            <Link to={"/profile"}>{user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}</Link>
-      
-            <div>
-              <span id="nav-footer-subtitle">{user && user.role ? user.role : null}</span>
+      </li>
+      <li className="nav-item">
+        <Link to="/home" className="btn btn-outline-dark">
+          <i className="fas fa-home"></i>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/createPost" className="btn btn-outline-dark">
+          <i className="fas fa-plus-square"></i>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link to="/" className="btn btn-outline-dark" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i></Link>
+      </li>
+      <li className="nav-item">
+        <div>
+          <div className="d-flex align-items-start">
+            <div id="nav-footer-avatar">
+              <Link to="/profile">
+                <img src={userImg} alt="Avatar" className="rounded-circle" />
+              </Link>
+            </div>
+            <div className={`ms-2 ${shouldHide ? 'hide-element' : ''}`}>
+              <Link to="/profile">
+                {user && user.user_name}
+              </Link>
             </div>
           </div>
-          <label htmlFor="nav-footer-toggle">
-            <i className="fas fa-caret-up"></i>
-          </label>
         </div>
-        <div id="nav-footer-content">
-          <div className="nav-item pt-4">
-            <Link to={"/"} className="btn btn-outline-primary d-flex justify-content-center" onClick={handleLogout} >Log out</Link>
-          </div>
-        </div>
-      </div>
-    </div>)
-
-  const navbarlite = (
-    <div className="sticky-top d-flex justify-content-end">
-      <button
-        id="nav-toggle"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 'none' }}
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasTop"
-        aria-controls="offcanvasTop"
-      >
-        <i className="fas fa-bars btn rounded-3 bg-primary" style={{ minWidth: "50px", minHeight: "30px" }}></i>
-      </button>
-
-      <div
-        className="offcanvas offcanvas-top"
-        tabIndex="-1"
-        id="offcanvasTop"
-        aria-labelledby="offcanvasTopLabel"
-        style={{ height: '40vh', backgroundColor: '#333' }}
-      >
-        <div className="offcanvas-header">
-          <Link to={"/modules"} className="text-primary navbar-title" aria-current="page" href="#">
-            CodeMind
-          </Link>
-          <hr />
-          <Link to={"/profile"}>
-            {user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}
-          </Link>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <hr className="orange-hr" />
-        <div className="offcanvas-body">
-          <div className="d-flex flex-wrap">
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/modules"><i className="fas fa-palette"></i><span>Modules</span></Link>
-            </div>
-            {/* <div className="nav-button col-4 col-md-3">
-            <i className="fas fa-images"></i><span>Library</span>
-          </div> */}
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/progress"><i className="fas fa-chart-line"></i><span>Progress</span></Link>
-            </div>
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/roadMap"><i className="fas fa-fire"></i><span>Road Map</span></Link>
-            </div>
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/about"><i className="fas fa-heart"></i><span>About Us</span></Link>
-            </div>
-            <hr />
-            <Link to={"/"} className="btn btn-outline-primary d-flex justify-content-center" onClick={handleLogout}>
-              Log out
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+      </li>
+     
+    </ul>
+  </nav>
   )
 
-
-  const teacherNavbar = (
-    <div id="nav-bar">
-      <input id="nav-toggle" type="checkbox" />
-      <div id="nav-header">
-        <div id="nav-title" target="_blank">
-          <Link to={"/modules"} className="text-primary font-weight-bold ms-3" aria-current="page" href="#">CodeMind</Link>
-        </div>
-        <label htmlFor="nav-toggle">
-          <span id="nav-toggle-burger"></span>
-        </label>
-        <hr />
+const userNavbar2 = (
+  <div id="nav-bar">
+    <input id="nav-toggle" checked={checked} type="checkbox" onClick={() => toggleLogOut(!checked)} />
+    <div id="nav-header">
+      <div id="nav-title" target="_blank">
+        <Link to={"/modules"} className="text-primary navbar-title ms-2" aria-current="page" href="#">CodeMind</Link>
       </div>
-      <div id="nav-content">
-        <div className="nav-button">
-        <Link to={"/modules"}><i className="fas fa-palette"></i><span>Modules</span></Link>
-        </div>
-        {/* <div className="nav-button">
-          <i className="fas fa-images"></i><span>Library</span>
-        </div> */}
-        <div className="nav-button">
-          <Link to={"/student"}><i className="fa-solid fa-user-group p-3"></i><span>Students</span></Link>
-        </div>
-        <hr />
-        {/* <div className="nav-button">
-          <i className="fas fa-chart-line"></i><span>Progress</span>
-        </div> */}
-        <div className="nav-button">
-        <Link to={"/roadmap"}><i className="fas fa-fire"></i><span>Road Map</span></Link>
-        </div>
-        <div className="nav-button">
-        <Link to={"/about"}><i className="fas fa-heart"></i><span>About Us</span></Link>
-        </div>
-        {/* <div className="nav-button">
-          <i className="fas fa-magic"></i><span>Spark</span>
-        </div> */}
-        <hr />
-        {/* <div className="nav-button">
-        <i className="fas fa-gem"></i><span>Codepen Pro</span>
+      <label htmlFor="nav-toggle">
+        <span id="nav-toggle-burger"></span>
+      </label>
+      <hr />
+    </div>
+    <div id="nav-content">
+      <div className="nav-button">
+        <Link to="/modules"><i className="fas fa-palette"></i><span>Modules</span> </Link>
+      </div>
+      {/* <div className="nav-button">
+        <i className="fas fa-images"></i><span>Library</span>
       </div> */}
-        <div id="nav-content-highlight"></div>
+      <hr />
+
+      <div className="nav-button">
+        <Link to="/progress"><i className="fas fa-chart-line"></i><span>Progress</span> </Link>
       </div>
 
-      <input id="nav-footer-toggle" type="checkbox" />
-      <div id="nav-footer">
-        <div id="nav-footer-heading" className="d-flex align-items-start">
-          <div id="nav-footer-avatar">
-            <Link to={"/profile"}><img src={userImg} alt="Avatar" className="rounded-circle" /></Link>
-          </div>
-          <div id="nav-footer-titlebox" className={`ms-2 ${shouldHide ? 'hide-element' : ''}`}>
-            
-              <Link to={"/profile"}>{user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}</Link>
-        
-            <div>
-              <span id="nav-footer-subtitle">{user && user.role ? user.role : null}</span>
-            </div>
-          </div>
-          <label htmlFor="nav-footer-toggle">
-            <i className="fas fa-caret-up"></i>
-          </label>
-        </div>
-        <div id="nav-footer-content">
-          <div className="nav-item">
-            <button className="btn btn-outline-primary" onClick={handleLogout} >Log out</button>
-          </div>
+      <div className="nav-button">
+        <Link to="/roadMap"> <i className="fas fa-fire"></i><span>Road Map</span> </Link>
+      </div>
+      <div className="nav-button">
+        <Link to="/about"><i className="fas fa-heart"></i><span>About Us</span> </Link>
+      </div>
+      <div id="nav-content-highlight"></div>
+    </div>
 
+    <input id="nav-footer-toggle" type="checkbox" checked={checkedTwo} onClick={() => setCheckedTwo(!checkedTwo)} />
+    <div id="nav-footer">
+      <div id="nav-footer-heading" className="d-flex align-items-start">
+        <div id="nav-footer-avatar">
+          <Link to={"/profile"}><img src={userImg} alt="Avatar" className="rounded-circle" /></Link>
+        </div>
+        <div id="nav-footer-titlebox" className={`ms-2 ${shouldHide ? 'hide-element' : ''}`}>
+      
+          <Link to={"/profile"}>{user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}</Link>
+    
+        </div>
+        <label htmlFor="nav-footer-toggle">
+          <i className="fas fa-caret-up"></i>
+        </label>
+      </div>
+      <div id="nav-footer-content">
+        <div className="nav-item pt-4">
+          <Link to={"/"} className="btn btn-outline-primary d-flex justify-content-center" onClick={handleLogout} >Log out</Link>
         </div>
       </div>
     </div>
-  )
-
-  const navbarliteTeacher = (
-    <div className="sticky-top d-flex justify-content-end">
-      <button
-        id="nav-toggle"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0)', border: 'none' }}
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasTop"
-        aria-controls="offcanvasTop"
-      >
-        <i className="fas fa-bars btn rounded-3 bg-primary" style={{ minWidth: "50px", minHeight: "30px" }}></i>
-      </button>
-
-      <div
-        className="offcanvas offcanvas-top"
-        tabIndex="-1"
-        id="offcanvasTop"
-        aria-labelledby="offcanvasTopLabel"
-        style={{ height: '40vh', backgroundColor: '#333' }}
-      >
-        <div className="offcanvas-header">
-          <Link to={"/modules"} className="text-primary navbar-title" aria-current="page" href="#">
-            CodeMind
-          </Link>
-          <hr />
-          <Link to={"/profile"}>
-            {user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}
-          </Link>
-          <button
-            type="button"
-            className="btn-close text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <hr className="orange-hr" />
-        <div className="offcanvas-body">
-          <div className="d-flex flex-wrap">
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/modules"><i className="fas fa-palette"></i><span>Modules</span></Link>
-            </div>
-            <div className="nav-button col-4 col-md-3">
-              <Link to={"/student"}><i className="fa-solid fa-user-group"></i><span>Students</span></Link>
-            </div>
-            {/* <div className="nav-button col-4 col-md-3">
-            <i className="fas fa-images"></i><span>Library</span>
-          </div> */}
-            {/* <div className="nav-button col-4 col-md-3">
-              <Link to="/progress"><i className="fas fa-chart-line"></i><span>Progress</span></Link>
-            </div> */}
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/roadMap"><i className="fas fa-fire"></i><span>Road Map</span></Link>
-            </div>
-            <div className="nav-button col-4 col-md-3">
-              <Link to="/about"><i className="fas fa-heart"></i><span>About Us</span></Link>
-            </div>
-            <hr />
-            <Link to={"/"} className="btn btn-outline-primary d-flex justify-content-center" onClick={handleLogout}>
-              Log out
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  </div>)
+  
 
 
-  const renderNavbarBasedOnRole = () => {
+  const renderNavbar = () => {
     const screenWidth = window.innerWidth;
     if (['/registro', '/', '/login', '/forwotpassword', '/sendpassword', '/changepassword'].includes(navActive)) {
       return defaultNavbar;
-    } else if (user && user.role === 'alumno' && screenWidth <= 768) {
-      return navbarlite;
-    } else if (user && user.role === 'alumno') {
+    }else{
       return userNavbar;
-    }  else if (user && user.role === 'teacher' && screenWidth <= 768) {
-      return navbarliteTeacher;
-    }else if (user && user.role === 'teacher') {
-      return teacherNavbar;
     }
+
+    
   };
 
   return (
     <>
-      {renderNavbarBasedOnRole()}
+      {renderNavbar()}
     </>
   );
 };
