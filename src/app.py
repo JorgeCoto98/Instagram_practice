@@ -34,8 +34,6 @@ def check_token_blocklist(jwt_header,jwt_payload) -> bool:
     if token is not None:
         return True
     
-    if request.path=="/api/private" and jwt_payload["role"]!= "admin":
-        return True
     return False
 
 

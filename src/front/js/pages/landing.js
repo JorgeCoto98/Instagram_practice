@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import logoCM from "../../img/LOGO.png";
 import "../../styles/index.css";
 import { Login } from './login';
-import { RoadMap } from './roadMap';
-import { CourseDescrip } from '../component/courseDescrip';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "../store/appContext";
 
@@ -15,7 +13,7 @@ export const Landing = () => {
 
     useEffect(() => {
             if (store.token){
-                navigate('/modules');
+                navigate('/home');
             }
                 setLandingRender(landing);
    
@@ -29,12 +27,12 @@ export const Landing = () => {
                         <div className="col-md-7 col-lg-3 col-xl-7 order-2 order-md-1">
                             <div className="p-4">
                                 <h1 className="titulo-landing text-center">
-                                    Develop yourself as a top web programmer with CodeMind.
+                                Digital Tech Inc
                                 </h1>
                             </div>
                             <div className='m-5'>
                                 <h4>
-                                    <a href="" className="typewrite ms-2" data-period="2000" data-type='[ "Learn the art of coding", "Enjoy the journey of learning", "Write code and discover", "Practice to master coding" ]'>
+                                    <a href="" className="typewrite ms-2" data-period="2000" data-type='[ "Transformando Ideas en Innovación Digital", "Conectando el Futuro con Tecnología de Hoy", "Tu Visión, Nuestra Tecnología: Juntos Hacemos Más" ]'>
                                         <span className="wrap ms-3"></span>
                                     </a>
                                 </h4>
@@ -46,17 +44,7 @@ export const Landing = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-dark pt-5'>
-                <CourseDescrip />
-            </div>
 
-
-            <div id="roadmap-section" className="p-5">
-
-                <div className="container col-md-8 col-lg-5 col-xl-4">
-                    <RoadMap />
-                </div>
-            </div>
         </div>
     );
 

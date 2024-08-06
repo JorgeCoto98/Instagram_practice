@@ -2,10 +2,10 @@ import React from "react";
 
 export const Footer = () => (
   <>
-    <footer className="footer mt-5 pb-3 pt-3 text-center">
-      <div className="container">
+    <footer className="d-flex flex-column min-vh-100 footer mt-5 pb-3 pt-3 text-center">
+      <div className="flex-fill container">
         <p className="mb-0">
-          CodeMind © | <i className="fab fa-github github-ico align-middle pb-3"></i>
+        Digital Tech Inc. n © |
         </p>
       </div>
     </footer>
