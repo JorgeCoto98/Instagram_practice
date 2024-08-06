@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Post, Like, TokenBlockedList, seed
+from api.models import db, User, Post, PostStatusEnum, Like, TokenBlockedList, seed
 from api.utils import generate_sitemap, APIException
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
@@ -248,59 +248,58 @@ def user_logout():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# @api.route('/exercise', methods=['POST'])
-# def create_excercise():
-#     try:
-#         new_exercise = Exercise(
-#             module=request.json.get("module"),
-#             type=request.json.get("type"),
-#             question=request.json.get("question"),
-#             info_blog=request.json.get("info_blog"),
-#             info_youtube=request.json.get("info_youtube"),
-#         )
-
-#         db.session.add(new_exercise)
-#         db.session.flush()
-#         exercise_id = new_exercise.id
-
-#         for answer_data in request.json.get("answers"):
-#             new_answer = Answers(
-#                 answers=answer_data["text"],
-#                 exercise_id=exercise_id,
-#                 isCorrect=answer_data["isCorrect"],
-#                 module=new_exercise.module,
-#                 type=new_exercise.type
-#             )
-#             db.session.add(new_answer)
-
-#         db.session.commit()
-
-#         return jsonify({"msg": "Exercise created successfully", "statusCode": 201, "exercise_id": exercise_id}), 201
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
 
 
-# @api.route('/exercise/', methods=['GET'])
-# def get_exercise():
-#     try:
-#         exercises = Exercise.query.all()
-#         exercise_list = [exercise.serialize() for exercise in exercises]
-#         return jsonify({"exercise": exercise_list}), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
+@api.route('/posts', methods=['POST'])
+@jwt_required()
+def create_post():
+    try:
+        # Obtén el ID del usuario autenticado
+        user_id = get_jwt_identity()
+
+        # Obtén los datos del cuerpo de la solicitud
+        image = request.json.get("image")
+        message = request.json.get("message")
+        created_at = request.json.get("created_at")
+        location = request.json.get("location")
+        status = request.json.get("status")
+
+        # Asegúrate de que todos los campos requeridos estén presentes
+        if not all([message, created_at, status]):
+            return jsonify({"error": "Faltan campos obligatorios"}), 400
+
+        # Validar el formato de `created_at` y convertirlo a `datetime.date`
+        try:
+            created_at_date = datetime.strptime(created_at, '%Y-%m-%d').date()
+        except ValueError:
+            return jsonify({"error": "Formato de fecha inválido. Use YYYY-MM-DD."}), 400
+
+        # Validar el valor del `status`
+        try:
+            status_enum = PostStatusEnum[status]
+        except KeyError:
+            return jsonify({"error": "Estado inválido para la publicación."}), 400
+
+        # Crear un nuevo post
+        new_post = Post(
+            image=image,
+            message=message,
+            author=user_id,  # Utiliza el ID del usuario autenticado como autor
+            created_at=created_at_date,
+            location=location,
+            status=status_enum
+        )
+
+        # Añadir y confirmar los cambios en la base de datos
+        db.session.add(new_post)
+        db.session.commit()
+
+        return jsonify(new_post.serialize()), 201
+    except Exception as e:
+        # Captura cualquier error y devuelve un mensaje de error
+        return jsonify({"error": str(e)}), 500
 
 
-# @api.route('/exercises/<string:module>', methods=['GET'])
-# def get_exercises_by_module(module):
-#     try:
-#         exercises = Exercise.query.filter_by(module=module.upper()).all()
-#         if exercises:
-#             exercises = [exercise.serialize() for exercise in exercises]
-#             return jsonify({"exercises": exercises}), 200
-#         else:
-#             return jsonify({"msg": "No se encontraron ejercicios para el tipo de módulo especificado"}), 404
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
 
 
 # @api.route('/verificar-respuesta/<int:id>', methods=['POST'])
@@ -331,6 +330,16 @@ def user_logout():
 
 #         return {"correct": correct}, 200
 
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
+
+# @api.route('/exercise/', methods=['GET'])
+# def get_exercise():
+#     try:
+#         exercises = Exercise.query.all()
+#         exercise_list = [exercise.serialize() for exercise in exercises]
+#         return jsonify({"exercise": exercise_list}), 200
 #     except Exception as e:
 #         return jsonify({"error": str(e)}), 500
 

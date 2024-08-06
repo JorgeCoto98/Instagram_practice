@@ -15,10 +15,10 @@ export const Registro = () => {
     firstName: '',
     lastName: '',
     email: '',
-    teacherName:null,
+    user_name: '',
     password: '',
     confirmPassword: '',
-    img: ''
+    img: null
   }
   const [formData, setFormData] = useState({...initialFormData});
   const [registrationSuccess, setregistrationSuccess] = useState(null)
@@ -118,6 +118,20 @@ export const Registro = () => {
                 id="lastName"
                 name="lastName"
                 value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="user_name" className="form-label">
+                Username
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-white border-primary"
+                id="user_name"
+                name="user_name"
+                value={formData.user_name}
                 onChange={handleChange}
                 required
               />
