@@ -16,12 +16,7 @@ export const AboutUs = () => {
             <h2 className="text-line ">Welcome!</h2>
             <p>
               {" "}
-              To CodeMind! We are a dedicated team working to provide an
-              innovative learning platform that empowers individuals to become
-              proficient in full-stack development and programming. Our platform
-              is designed to cater to both aspiring students and experienced
-              professionals, offering a comprehensive range of resources and
-              tools to enhance your coding journey.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue ex at dolor maximus, ac varius odio pharetra. Vestibulum placerat lorem vitae pharetra fringilla. Vivamus eros nulla, convallis vitae cursus et, eleifend non ipsum. Maecenas efficitur libero sed erat maximus, vel sodales mauris porta. Maecenas aliquam mi aliquam odio venenatis, ac malesuada augue sodales.
             </p>
           </div>
           <div className="mb-5">
@@ -30,12 +25,7 @@ export const AboutUs = () => {
             </h2>
             <p>
               {" "}
-              Is to foster a community of passionate learners and educators,
-              where knowledge is accessible to all. We believe in the
-              transformative power of coding and its ability to shape the
-              future. With this in mind, we strive to create a platform that
-              encourages creativity, critical thinking, and collaboration among
-              individuals from diverse backgrounds.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue ex at dolor maximus, ac varius odio pharetra. Vestibulum placerat lorem vitae pharetra fringilla. Vivamus eros nulla, convallis vitae cursus et, eleifend non ipsum. Maecenas efficitur libero sed erat maximus, vel sodales mauris porta. Maecenas aliquam mi aliquam odio venenatis, ac malesuada augue sodales.
             </p>
           </div>
           <div className="mb-5">
@@ -44,11 +34,7 @@ export const AboutUs = () => {
             </h2>
             <p>
               {" "}
-              Whether you're just starting your coding journey or looking to
-              refine your skills, CodeMind is here to guide and support you.
-              Join our community today and embark on an exciting path of
-              exploration, creativity, and growth. Together, we're shaping the
-              future of coding education.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue ex at dolor maximus, ac varius odio pharetra. Vestibulum placerat lorem vitae pharetra fringilla. Vivamus eros nulla, convallis vitae cursus et, eleifend non ipsum. Maecenas efficitur libero sed erat maximus, vel sodales mauris porta. Maecenas aliquam mi aliquam odio venenatis, ac malesuada augue sodales.
             </p>
           </div>
         </div>

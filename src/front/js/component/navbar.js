@@ -138,63 +138,6 @@ export const Navbar = () => {
   </nav>
   )
 
-const userNavbar2 = (
-  <div id="nav-bar">
-    <input id="nav-toggle" checked={checked} type="checkbox" onClick={() => toggleLogOut(!checked)} />
-    <div id="nav-header">
-      <div id="nav-title" target="_blank">
-        <Link to={"/modules"} className="text-primary navbar-title ms-2" aria-current="page" href="#">CodeMind</Link>
-      </div>
-      <label htmlFor="nav-toggle">
-        <span id="nav-toggle-burger"></span>
-      </label>
-      <hr />
-    </div>
-    <div id="nav-content">
-      <div className="nav-button">
-        <Link to="/modules"><i className="fas fa-palette"></i><span>Modules</span> </Link>
-      </div>
-      {/* <div className="nav-button">
-        <i className="fas fa-images"></i><span>Library</span>
-      </div> */}
-      <hr />
-
-      <div className="nav-button">
-        <Link to="/progress"><i className="fas fa-chart-line"></i><span>Progress</span> </Link>
-      </div>
-
-      <div className="nav-button">
-        <Link to="/roadMap"> <i className="fas fa-fire"></i><span>Road Map</span> </Link>
-      </div>
-      <div className="nav-button">
-        <Link to="/about"><i className="fas fa-heart"></i><span>About Us</span> </Link>
-      </div>
-      <div id="nav-content-highlight"></div>
-    </div>
-
-    <input id="nav-footer-toggle" type="checkbox" checked={checkedTwo} onClick={() => setCheckedTwo(!checkedTwo)} />
-    <div id="nav-footer">
-      <div id="nav-footer-heading" className="d-flex align-items-start">
-        <div id="nav-footer-avatar">
-          <Link to={"/profile"}><img src={userImg} alt="Avatar" className="rounded-circle" /></Link>
-        </div>
-        <div id="nav-footer-titlebox" className={`ms-2 ${shouldHide ? 'hide-element' : ''}`}>
-      
-          <Link to={"/profile"}>{user && user.firstName ? user.firstName : null} {user && user.lastName ? user.lastName : null}</Link>
-    
-        </div>
-        <label htmlFor="nav-footer-toggle">
-          <i className="fas fa-caret-up"></i>
-        </label>
-      </div>
-      <div id="nav-footer-content">
-        <div className="nav-item pt-4">
-          <Link to={"/"} className="btn btn-outline-primary d-flex justify-content-center" onClick={handleLogout} >Log out</Link>
-        </div>
-      </div>
-    </div>
-  </div>)
-  
 
 
   const renderNavbar = () => {
