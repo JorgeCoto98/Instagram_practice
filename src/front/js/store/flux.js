@@ -56,24 +56,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 			addUser: async (newUser) => {
-				const url = process.env.BACKEND_URL + '/api/user'
+				const url = `${process.env.BACKEND_URL}/api/user`;
 				const options = {
 					method: 'POST',
 					body: JSON.stringify(newUser),
-					headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
-				}
+					headers: { 'Content-Type': 'application/json' }
+				};
 				try {
-					const resp = await fetch(url, options)
+					const resp = await fetch(url, options);
+					
 					if (resp.ok) {
 						console.log('La solicitud se realizó con éxito');
+						try {
+							const data = await resp.json();
+							console.log('Respuesta del servidor:', data);
+						} catch (jsonError) {
+							console.error('Error al analizar JSON:', jsonError);
+						}
 					} else {
+						const errorText = await resp.text();
 						console.error('La solicitud no se realizó con éxito');
+						console.error('Estado:', resp.status);
+						console.error('Texto del Estado:', resp.statusText);
+						console.error('Respuesta del Servidor:', errorText);
 					}
 				} catch (error) {
-					console.error(error)
+					console.error('Error en la solicitud', error);
 				}
-			},
-
+			},			
 			loginUser: async (userCredentials) => {
 				const url = process.env.BACKEND_URL + '/api/login';
 				const options = {
