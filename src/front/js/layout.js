@@ -5,6 +5,7 @@ import { BackendURL } from "./component/backendURL";
 import { Context } from "./store/appContext";
 import { Index } from "./pages/index";
 import { Home } from "./pages/home";
+import { UserProfile } from "./pages/userProfile";
 
 import { Profile } from "./pages/profile";
 import { ChangePassword } from "./pages/changePassword";
@@ -60,6 +61,7 @@ const Layout = () => {
             {store.token ? (
               <>
                 <Route element={<Profile />} path="/profile" />
+                <Route element={<UserProfile />} path="/userProfile" />
                 <Route element={<Home />} path="/home" />
                 <Route element={<CreatePost />} path="/createPost" />
                 <Route element={<Demo />} path="/demo" />

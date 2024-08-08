@@ -114,6 +114,11 @@ export const Navbar = () => {
           <i className="fas fa-plus-square"></i>
         </Link>
       </li>
+      <li className="">
+        <Link to="/userProfile" className="btn btn-outline-dark">
+          <i className="fa-regular fa-user"></i>
+        </Link>
+      </li>
       <li className="nav-item">
         <Link to="/" className="btn btn-outline-dark" onClick={handleLogout}><i className="fas fa-sign-out-alt"></i></Link>
       </li>

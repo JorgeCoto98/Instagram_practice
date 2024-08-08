@@ -1,3 +1,144 @@
 [
-	
+    {
+        "target_class": "User",
+        "data": [
+            {
+                "id":"1",
+                "firstName": "Jorge",
+                "lastName": "Coto Meza",
+                "user_name": "Jorge_coto98",
+                "email": "jcoto@gmail.com",
+                "password": "$2b$10$O5Y0r4d3K3Yg3FkyR6fTpug2vI9G9jhDILZR1egoG77.RKQN5tuye",
+                "img": "https://ui-avatars.com/api/?name=Jorge Coto Meza&size=200&rounded=true&background=random"
+            },
+            {
+                "id":"2",
+                "firstName": "Alice",
+                "lastName": "Smith",
+                "user_name": "alice_smith",
+                "email": "alice@example.com",
+                "password": "123",
+                "img": "https://randomuser.me/api/portraits/women/1.jpg"
+            },
+            {
+                "id":"3",
+                "firstName": "Bob",
+                "lastName": "Johnson",
+                "user_name": "bob_johnson",
+                "email": "bob@example.com",
+                "password": "123",
+                "img": "https://randomuser.me/api/portraits/men/2.jpg"
+            },
+            {
+                "id":"4",
+                "firstName": "Charlie",
+                "lastName": "Brown",
+                "user_name": "charlie_brown",
+                "email": "charlie@example.com",
+                "password": "123",
+                "img": "https://randomuser.me/api/portraits/men/3.jpg"
+            }
+        ]
+    },
+    {
+        "target_class": "Post",
+        "data": [
+            {
+                "image": "https://img.freepik.com/fotos-premium/vista-panoramica-lago-montanas-contra-cielo_1048944-22422855.jpg?w=360",
+                "message": "Exploring the beautiful landscapes!",
+                "author": 1,
+                "created_at": "2024-08-01",
+                "location": "Grand Canyon",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/paisaje-montana-lago_71767-126.jpg?t=st=1723109480~exp=1723113080~hmac=3eb04a8157efa765b6c9a7f707bda77d4d7d2ed88ed166c547168e0186950d0d&w=740",
+                "message": "Homemade chocolate cake for dessert.",
+                "author": 2,
+                "created_at": "2024-08-02",
+                "location": "Home",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://media.istockphoto.com/id/1972286424/es/foto/digital-security-and-privacy-background-cyber-and-crypto-security-shield-on-futuristic-screen.jpg?s=1024x1024&w=is&k=20&c=DsAPmGOFIX8VF9glu5KohRhp7sm28Qiu0HinkhX3NG8=",
+                "message": "Sunset over the ocean.",
+                "author": 3,
+                "created_at": "2024-08-03",
+                "location": "Malibu Beach",
+                "status": "DRAFTED"
+            },
+            {
+                "image": "https://media.istockphoto.com/id/1675712006/es/foto/mujer-joven-que-tiene-una-cita-con-el-m%C3%A9dico-en-l%C3%ADnea-en-casa.jpg?s=1024x1024&w=is&k=20&c=zeQKTdKNKWsUowNWilLqAWGbxfVQvEQo_lYKxitS8g0=",
+                "message": "Hiking through the mountains.",
+                "author": 1,
+                "created_at": "2024-08-04",
+                "location": "Rocky Mountains",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/fotos-premium/montana-cielo-azul_1150-41736.jpg?w=360",
+                "message": "A breathtaking view of the mountain range.",
+                "author": 1,
+                "created_at": "2024-08-05",
+                "location": "Swiss Alps",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/caminando-paisaje-bosque_1150-39169.jpg?w=740",
+                "message": "Walking through the serene forest.",
+                "author": 2,
+                "created_at": "2024-08-06",
+                "location": "Forest Trail",
+                "status": "DRAFTED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/amanecer-paisaje-playa_1150-38880.jpg?w=740",
+                "message": "Sunrise at the beach.",
+                "author": 3,
+                "created_at": "2024-08-07",
+                "location": "Tropical Beach",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/fotos-premium/camino-niebla-montanas_1150-42922.jpg?w=360",
+                "message": "A foggy path through the mountains.",
+                "author": 1,
+                "created_at": "2024-08-08",
+                "location": "Mountain Pass",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/vista-panoramica-mar-costero_1150-41733.jpg?w=740",
+                "message": "Coastal view from above.",
+                "author": 2,
+                "created_at": "2024-08-09",
+                "location": "Coastal Cliff",
+                "status": "DRAFTED"
+            },
+            {
+                "image": "https://img.freepik.com/fotos-premium/campo-floral-atardecer_1150-43082.jpg?w=360",
+                "message": "Flower field at sunset.",
+                "author": 3,
+                "created_at": "2024-08-10",
+                "location": "Flower Field",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/estrella-espacio_1150-39158.jpg?w=740",
+                "message": "Starry night sky.",
+                "author": 1,
+                "created_at": "2024-08-11",
+                "location": "Observatory",
+                "status": "PUBLISHED"
+            },
+            {
+                "image": "https://img.freepik.com/foto-gratis/puente-rio-cascada_1150-39456.jpg?w=740",
+                "message": "Bridge over a river with a waterfall.",
+                "author": 2,
+                "created_at": "2024-08-12",
+                "location": "Waterfall Valley",
+                "status": "DRAFTED"
+            }
+        ]
+    }
 ]

@@ -298,28 +298,54 @@ def create_post():
     except Exception as e:
         # Captura cualquier error y devuelve un mensaje de error
         return jsonify({"error": str(e)}), 500
+    
 
 @api.route('/posts', methods=['GET'])
 def get_all_posts():
     try:
+        # Obtener todos los posts
         posts = Post.query.all()
-        return jsonify(posts=[post.serialize() for post in posts]), 200
+        
+        if posts:
+            # Obtener la información del autor para cada post
+            posts_with_authors = []
+            for post in posts:
+                author = User.query.get(post.author)
+                post_data = post.serialize()
+                author_data = author.serialize() if author else {}
+                post_data['author'] = author_data
+                posts_with_authors.append(post_data)
+                
+            return jsonify(posts=posts_with_authors), 200
+        else:
+            return jsonify({"msg": "No se encontraron publicaciones"}), 404
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@api.route('/user/<int:user_id>/posts', methods=['GET'])
-def get_posts_by_user(user_id):
+@api.route('/posts/user/<int:user_id>', methods=['GET'])
+def get_user_posts(user_id):
     try:
-        # Obtener todos los posts del usuario con el ID proporcionado
+        # Obtener los posts del usuario específico
         posts = Post.query.filter_by(author=user_id).all()
-
+        
         if posts:
-            return jsonify(posts=[post.serialize() for post in posts]), 200
+            # Obtener la información del autor para cada post
+            posts_with_authors = []
+            for post in posts:
+                author = User.query.get(post.author)
+                post_data = post.serialize()  # Asegúrate de que `serialize()` devuelva un diccionario
+                author_data = author.serialize() if author else {}
+                post_data['author'] = author_data
+                posts_with_authors.append(post_data)
+                
+            return jsonify(posts=posts_with_authors), 200
         else:
             return jsonify({"msg": "No se encontraron publicaciones para este usuario"}), 404
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @api.route('/posts/<int:post_id>/like', methods=['POST'])
 @jwt_required()

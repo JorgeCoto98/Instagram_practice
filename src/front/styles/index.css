@@ -166,6 +166,19 @@ li {
 width: 150px;
 height: 180px;
 }
+.post-image {
+  width: 100%; /* Ajusta al 100% del contenedor */
+  height: auto; /* Mantiene la relación de aspecto original */
+  max-height: 200px; /* Limita la altura máxima del contenedor */
+  object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin recortes */
+}
+.modal-image {
+  width: 100%; /* Ajusta al 100% del contenedor del modal */
+  height: auto; /* Mantiene la relación de aspecto original */
+  max-height: 80vh; /* Limita la altura máxima para no exceder el viewport */
+  object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin recortes */
+}
+
 
 /*Menu, links and buttons-----------------------------------------------------------------*/
 .nav-link{

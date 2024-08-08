@@ -19,7 +19,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 
 			user: initialUser,
-			email: null
+			email: null, 
+			posts: [],
+            loading: false,
+            error: null,
 		},
 
 		actions: {
@@ -258,17 +261,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 						'Access-Control-Allow-Origin': '*'
 					}
 				}
-
+			
 				try {
 					const resp = await fetch(url, options);
 					if (resp.ok) {
-						const data = await resp.json()
-						return data
+						const data = await resp.json();
+						return data;
+					} else {
+						console.error('Error fetching user:', resp.statusText);
+						return null; // Indicar que hubo un error al obtener los datos
 					}
 				} catch (error) {
-					console.error(error)
+					console.error('Fetch error:', error);
+					return null; // Indicar que hubo un error en la solicitud
 				}
 			},
+			
 			decrypt: async (token) => {
 				const url = process.env.BACKEND_URL + '/api/decrypt';
 				const options = {
@@ -316,7 +324,61 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			rechargeToken: ()=>{
 				setStore({ token: localStorage.getItem('userToken') })
-			}
+			},
+
+			// Posts de usuarios
+
+			
+			getAllPosts: async () => {
+				const url = process.env.BACKEND_URL + '/api/posts';
+				const options = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Access-Control-Allow-Origin': '*'
+					}
+				};
+		
+				try {
+					const resp = await fetch(url, options);
+					if (resp.ok) {
+						const data = await resp.json();
+						return data.posts; // Asegúrate de que esta propiedad exista en la respuesta.
+					} else {
+						console.error('Error al obtener posts:', resp.statusText);
+					}
+				} catch (error) {
+					console.error('Error al obtener posts:', error);
+				}
+			},
+			getUserPosts: async (userId) => {
+				const token = localStorage.getItem('userToken');
+				const url = `${process.env.BACKEND_URL}/api/posts/user/${userId}`;
+				const options = {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`,  // Incluir el token en el encabezado de autorización
+					}
+				};
+			
+				try {
+					const response = await fetch(url, options);
+					const result = await response.json();
+					if (response.ok) {
+						console.log('Posts del usuario cargados exitosamente:', result);
+						return result.posts;  // Ajusta si la estructura de respuesta es diferente
+					} else {
+						console.error('Error al obtener los posts del usuario:', result);
+						return [];  // Retorna un array vacío en caso de error
+					}
+				} catch (error) {
+					console.error('Error al realizar la solicitud:', error);
+					return [];  // Retorna un array vacío en caso de error
+				}
+			},
+			
+
 
 
 		},

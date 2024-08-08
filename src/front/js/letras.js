@@ -21,9 +21,9 @@ TxtType.prototype.tick = function() {
     this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
 
     var that = this;
-    var delta = 200 - Math.random() * 150;
+    var delta = 200 - Math.random() * 200;
 
-    if (this.isDeleting) { delta /= 2; }
+    if (this.isDeleting) { delta /= 3; }
 
     if (!this.isDeleting && this.txt === fullTxt) {
     delta = this.period;
