@@ -4,7 +4,7 @@
 services:
     - type: web # valid values: https://render.com/docs/yaml-spec#type
       region: ohio
-      name: sample-service-name
+      name: instagram-practice
       env: python # valid values: https://render.com/docs/yaml-spec#environment
       buildCommand: "./render_build.sh"
       startCommand: "gunicorn wsgi --chdir ./src/"
@@ -25,7 +25,15 @@ services:
             fromDatabase:
                 name: postgresql-trapezoidal-42170
                 property: connectionString
-
+          - key: SMTP_ADDRESS # Imported from Heroku app
+              value: 'smtp.gmail.com'
+          - key: SMTP_PORT # Imported from Heroku app
+              value: 465
+          # - key: EMAIL_ADDRESS # Imported from Heroku app
+          #     value: 
+          # - key: EMAIL_PASSWORD # Imported from Heroku app
+          #     value: 
+              
 databases: # Render PostgreSQL database
     - name: postgresql-trapezoidal-42170
       region: ohio

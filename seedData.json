@@ -3,7 +3,7 @@
         "target_class": "User",
         "data": [
             {
-                "id":"1",
+                
                 "firstName": "Jorge",
                 "lastName": "Coto Meza",
                 "user_name": "Jorge_coto98",
@@ -12,7 +12,7 @@
                 "img": "https://ui-avatars.com/api/?name=Jorge Coto Meza&size=200&rounded=true&background=random"
             },
             {
-                "id":"2",
+                
                 "firstName": "Alice",
                 "lastName": "Smith",
                 "user_name": "alice_smith",
@@ -21,7 +21,7 @@
                 "img": "https://randomuser.me/api/portraits/women/1.jpg"
             },
             {
-                "id":"3",
+                
                 "firstName": "Bob",
                 "lastName": "Johnson",
                 "user_name": "bob_johnson",
@@ -30,7 +30,7 @@
                 "img": "https://randomuser.me/api/portraits/men/2.jpg"
             },
             {
-                "id":"4",
+                
                 "firstName": "Charlie",
                 "lastName": "Brown",
                 "user_name": "charlie_brown",
