@@ -22,9 +22,9 @@ services:
           - key: PYTHON_VERSION
             value: 3.10.6
           - key: SMTP_ADDRESS # Imported from Heroku app
-              value: 'smtp.gmail.com'
+            value: 'smtp.gmail.com'
           - key: SMTP_PORT # Imported from Heroku app
-              value: 465
+            value: 465
           - key: DATABASE_URL # Render PostgreSQL database
             fromDatabase:
                 name: postgresql-trapezoidal-42170
